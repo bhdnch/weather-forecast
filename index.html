@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Прогноз погоды</title>
+        <link rel="stylesheet" href="css/normalize.css" />
+        <link rel="stylesheet" href="css/style.min.css" />
+    </head>
+    <body>
+        <main class="main">
+            <section class="weather">
+                <div class="container">
+                    <div class="weather__interface">
+                        <select name="units" id="units">
+                            <option value="metric">Metric</option>
+                            <option value="imperial">Imperial</option>
+                        </select>
+                        <input type="text" id="search" />
+                    </div>
+                    <div class="weather__hero">
+                        <h1 id="hero-city"></h1>
+                        <h2 id="hero-temp"></h2>
+                        <p id="hero-desc"></p>
+                        <div class="weather__hero__content">
+                            <p id="hero-max-temp"></p>
+                            <p id="hero-min-temp"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <script src="js/index.js"></script>
+    </body>
+</html>

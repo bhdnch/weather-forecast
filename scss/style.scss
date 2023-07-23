@@ -1,0 +1,77 @@
+@import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.weather {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &__hero {
+        padding: 0 10px;
+        height: 300px;
+        width: 250px;
+        border-radius: 20px;
+        background: linear-gradient(90deg, #cfecd0, #a0cea7, #9ec0db);
+        color: #fff;
+        text-align: center;
+        font-family: "Merriweather Sans", sans-serif;
+        h1,
+        h2,
+        p {
+            margin: 0;
+        }
+        h1 {
+            padding-top: 20px;
+            font-size: 22px;
+        }
+        h2 {
+            padding-top: 2px;
+            font-size: 36px;
+        }
+        p {
+            padding-top: 5px;
+        }
+        &__content {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+    }
+    &__interface {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        input,
+        select {
+            font-family: "Merriweather Sans", sans-serif;
+            font-size: 16px;
+            border-radius: 7px;
+            margin: 20px 0;
+            padding: 7px;
+            border: 2px solid #cfecd0;
+            &:focus {
+                outline: none;
+                border: 2px solid #9ec0db;
+            }
+        }
+        input {
+            width: 220px;
+            font-family: "Merriweather Sans", sans-serif;
+            font-size: 20px;
+            border-radius: 7px;
+            margin: 0 0 20px 0;
+            padding: 10px;
+            height: 50px;
+            border: 2px solid #cfecd0;
+            &:focus {
+                outline: none;
+                border: 2px solid #9ec0db;
+            }
+        }
+    }
+}
