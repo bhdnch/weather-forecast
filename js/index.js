@@ -159,13 +159,13 @@ function loadCityList() {
     }
 }
 
+document.querySelector(".weather-list__clear").addEventListener("click", () => {
+    localStorage.removeItem("cities");
+    window.location.reload();
+});
+
 changeUnits();
 getLocalWeather();
 loadCityList();
 weatherList.addEventListener("click", selectCityFromList);
 addCityButton.addEventListener("click", addCityToList);
-
-// document.querySelector(".debug-ls").addEventListener("click", () => {
-//     localStorage.removeItem("cities");
-//     window.location.reload();
-// });
