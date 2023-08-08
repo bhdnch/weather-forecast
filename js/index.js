@@ -165,7 +165,7 @@ loadCityList();
 weatherList.addEventListener("click", selectCityFromList);
 addCityButton.addEventListener("click", addCityToList);
 
-document.querySelector(".debug-ls").addEventListener("click", () => {
-    localStorage.removeItem("cities");
-    window.location.reload();
-});
+// document.querySelector(".debug-ls").addEventListener("click", () => {
+//     localStorage.removeItem("cities");
+//     window.location.reload();
+// });
