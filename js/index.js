@@ -3,9 +3,14 @@ const params = {
     api: "12bc2351f03115a6149dfefd65ce38fb",
     unit: "metric",
 };
+const ls = localStorage;
+let cities = [];
 
 const units = document.querySelector("#units");
 const search = document.querySelector("#search");
+const weatherList = document.querySelector(".weather-list__wrapper");
+const addCityButton = document.querySelector(".weather__add");
+let currentCity = false;
 
 let weatherSearched = false;
 
@@ -35,16 +40,13 @@ search.addEventListener("keypress", (event) => {
     }
 });
 
-//!
-
-//!
-
 async function getWeather(city) {
     const response = await fetch(`${params.url}weather?q=${city}&units=${params.unit}&appid=${params.api}`);
     const data = await response.json();
 
     if (response.ok) {
         output([data.name, data.main.temp, data.weather[0].main, data.main.temp_max, data.main.temp_min]);
+        currentCity = data.name;
     } else {
         search.style.border = "2px solid red";
         output(null, "Город не найден");
@@ -68,6 +70,7 @@ async function getLocalWeather() {
 
         if (response.ok) {
             output([data.name, data.main.temp, data.weather[0].main, data.main.temp_max, data.main.temp_min]);
+            currentCity = data.name;
         } else {
             output(null, "Ошибка сервера");
         }
@@ -99,5 +102,70 @@ function output(data, error = false) {
     minTemp.innerHTML = "Min: " + Math.round(data[4]) + "&#176;";
 }
 
+function selectCityFromList(event) {
+    let elem = event.target;
+    if (!elem.classList.contains("weather-list__item")) {
+        return false;
+    }
+    let cityName = elem.dataset.name;
+    getWeather(cityName);
+}
+
+function createListItem(currentCity) {
+    const wrapper = document.querySelector(".weather-list__wrapper");
+
+    let item = document.createElement("div");
+    let title = document.createElement("h3");
+
+    item.classList.add("weather-list__item");
+    item.setAttribute("data-name", currentCity);
+
+    title.innerHTML = currentCity;
+    item.append(title);
+    wrapper.append(item);
+}
+
+function addCityToList() {
+    let list = JSON.parse(localStorage.getItem("cities")) || [];
+    if (!currentCity) {
+        console.log("No current city");
+        return false;
+    }
+    if (list.indexOf(currentCity) !== -1) {
+        console.log("City already in list");
+        return false;
+    }
+    console.log(currentCity);
+    createListItem(currentCity);
+
+    cities.push(currentCity);
+    ls.setItem("cities", JSON.stringify(cities));
+}
+
+function loadCityList() {
+    let list = JSON.parse(localStorage.getItem("cities"));
+    if (list === null) {
+        return false;
+    }
+    cities = [...list];
+
+    if (list === null) {
+        console.log("No cities in localStorage");
+        return false;
+    }
+
+    for (const item of list) {
+        createListItem(item);
+    }
+}
+
 changeUnits();
 getLocalWeather();
+loadCityList();
+weatherList.addEventListener("click", selectCityFromList);
+addCityButton.addEventListener("click", addCityToList);
+
+document.querySelector(".debug-ls").addEventListener("click", () => {
+    localStorage.removeItem("cities");
+    window.location.reload();
+});
