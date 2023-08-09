@@ -28,15 +28,15 @@ function changeUnits() {
 
 search.addEventListener("keypress", (event) => {
     let value = search.value;
-    value = value.trim();
+    trimmedValue = value.trim();
     if (event.key === "Enter") {
-        if (value == "") {
+        if (trimmedValue == "") {
             search.style.border = "2px solid red";
             return false;
         } else {
             search.style.border = "";
         }
-        getWeather(search.value);
+        getWeather(trimmedValue);
         weatherSearched = true;
     }
 });
@@ -143,7 +143,6 @@ function addCityToList() {
         console.log("City already in list");
         return false;
     }
-    console.log(currentCity);
     createListItem(currentCity);
 
     cities.push(currentCity);
