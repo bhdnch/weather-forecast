@@ -10,6 +10,7 @@ const units = document.querySelector("#units");
 const search = document.querySelector("#search");
 const weatherList = document.querySelector(".weather-list__wrapper");
 const addCityButton = document.querySelector(".weather__add");
+// const deleteCityButton = document.querySelector(".weather-list__delete-city");
 let currentCity = false;
 
 let weatherSearched = false;
@@ -116,12 +117,19 @@ function createListItem(currentCity) {
 
     let item = document.createElement("div");
     let title = document.createElement("h3");
+    let cross = document.createElement("button");
 
     item.classList.add("weather-list__item");
+    cross.classList.add("weather-list__delete-city");
+
     item.setAttribute("data-name", currentCity);
+    cross.setAttribute("data-name", currentCity);
 
     title.innerHTML = currentCity;
+    cross.innerHTML = "&#10008";
+
     item.append(title);
+    item.append(cross);
     wrapper.append(item);
 }
 
@@ -142,6 +150,23 @@ function addCityToList() {
     ls.setItem("cities", JSON.stringify(cities));
 }
 
+function deleteCityFromList(event) {
+    if (!event.target.classList.contains("weather-list__delete-city")) {
+        return false;
+    }
+    let index = cities.indexOf(event.target.dataset.name);
+    if (index !== -1) {
+        cities.splice(index, 1);
+
+        const listItemDOM = event.target.closest(".weather-list__item");
+        if (listItemDOM) {
+            listItemDOM.remove();
+        }
+
+        ls.setItem("cities", JSON.stringify(cities));
+    }
+}
+
 function loadCityList() {
     let list = JSON.parse(localStorage.getItem("cities"));
     if (list === null) {
@@ -159,7 +184,7 @@ function loadCityList() {
     }
 }
 
-document.querySelector(".weather-list__clear").addEventListener("click", () => {
+document.querySelector(".weather__list-clear").addEventListener("click", () => {
     localStorage.removeItem("cities");
     window.location.reload();
 });
@@ -169,3 +194,4 @@ getLocalWeather();
 loadCityList();
 weatherList.addEventListener("click", selectCityFromList);
 addCityButton.addEventListener("click", addCityToList);
+weatherList.addEventListener("click", deleteCityFromList);
