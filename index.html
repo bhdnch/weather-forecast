@@ -9,36 +9,45 @@
     </head>
     <body>
         <main class="main">
-            <section class="weather">
-                <div class="container">
-                    <div class="weather__interface">
-                        <select name="units" id="units">
-                            <option value="metric">Metric</option>
-                            <option value="imperial">Imperial</option>
-                        </select>
-                        <input type="text" id="search" />
-                    </div>
-                    <div class="weather__hero">
-                        <h1 id="hero-city"></h1>
-                        <h2 id="hero-temp"></h2>
-                        <p id="hero-desc"></p>
-                        <div class="weather__hero__content">
-                            <p id="hero-max-temp"></p>
-                            <p id="hero-min-temp"></p>
+            <div class="weather-main">
+                <section class="weather">
+                    <div class="container">
+                        <div class="weather__interface">
+                            <select name="units" id="units">
+                                <option value="metric">Metric</option>
+                                <option value="imperial">Imperial</option>
+                            </select>
+                            <div class="weather__interface__searching">
+                                <input type="text" id="search" />
+                                <button class="fa-solid fa-magnifying-glass search-city"></button>
+                            </div>
+                        </div>
+                        <div class="weather__hero">
+                            <h1 id="hero-city"></h1>
+                            <h2 id="hero-temp"></h2>
+                            <p id="hero-desc"></p>
+                            <div class="weather__hero__content">
+                                <p id="hero-max-temp"></p>
+                                <p id="hero-min-temp"></p>
+                                <p id="hero-pressure"></p>
+                                <p id="hero-humidity"></p>
+                            </div>
+                        </div>
+                        <div class="weather__buttons">
+                            <button class="weather__add">To Favorites</button>
+                            <button class="weather__list-clear">Clear Favorites</button>
                         </div>
                     </div>
-                    <div class="weather__buttons">
-                        <button class="weather__add">Add City</button>
-                        <button class="weather__list-clear">Clear All</button>
+                </section>
+                <section class="weather-list">
+                    <div class="container">
+                        <div class="weather-list__wrapper"></div>
                     </div>
-                </div>
-            </section>
-            <section class="weather-list">
-                <div class="container">
-                    <div class="weather-list__wrapper"></div>
-                </div>
-            </section>
+                </section>
+            </div>
         </main>
+
+        <script src="https://kit.fontawesome.com/01bb16d595.js" crossorigin="anonymous"></script>
         <script src="js/index.js"></script>
     </body>
 </html>

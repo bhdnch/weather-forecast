@@ -10,6 +10,9 @@ const units = document.querySelector("#units");
 const search = document.querySelector("#search");
 const weatherList = document.querySelector(".weather-list__wrapper");
 const addCityButton = document.querySelector(".weather__add");
+const searchCityBtn = document.querySelector(".search-city");
+const asideLeft = document.querySelector(".aside-left");
+const asideRight = document.querySelector(".aside-right");
 // const deleteCityButton = document.querySelector(".weather-list__delete-city");
 let currentCity = false;
 
@@ -19,7 +22,8 @@ function changeUnits() {
     units.addEventListener("change", () => {
         params.unit = units.value;
         if (weatherSearched) {
-            getWeather(search.value);
+            getWeather(currentCity);
+            // console.log(currentCity);
         } else {
             getLocalWeather();
         }
@@ -41,16 +45,32 @@ search.addEventListener("keypress", (event) => {
     }
 });
 
+searchCityBtn.addEventListener("click", (event) => {
+    let value = search.value;
+    trimmedValue = value.trim();
+    if (trimmedValue == "") {
+        search.style.border = "2px solid red";
+        return false;
+    } else {
+        search.style.border = "";
+    }
+    getWeather(trimmedValue);
+    weatherSearched = true;
+});
+
 async function getWeather(city) {
     const response = await fetch(`${params.url}weather?q=${city}&units=${params.unit}&appid=${params.api}`);
     const data = await response.json();
 
     if (response.ok) {
         output([data.name, data.main.temp, data.weather[0].main, data.main.temp_max, data.main.temp_min]);
+        outputAside([data.main.humidity, data.main.pressure, data.main]);
         currentCity = data.name;
+        console.log(data);
     } else {
         search.style.border = "2px solid red";
         output(null, "Город не найден");
+        outputAside(null, "Город не найден");
     }
 }
 
@@ -71,9 +91,11 @@ async function getLocalWeather() {
 
         if (response.ok) {
             output([data.name, data.main.temp, data.weather[0].main, data.main.temp_max, data.main.temp_min]);
+            outputAside([data.main.humidity, data.main.pressure]);
             currentCity = data.name;
         } else {
             output(null, "Ошибка сервера");
+            outputAside(null, "Ошибка сервера");
         }
     } catch (error) {
         console.log("Error: ", error.message);
@@ -95,12 +117,34 @@ function output(data, error = false) {
         minTemp.innerHTML = "";
         return false;
     }
+    if (params.unit == "imperial") {
+        city.innerHTML = data[0];
+        temp.innerHTML = Math.round(data[1]) + "&#176;F";
+        desc.innerHTML = data[2];
+        maxTemp.innerHTML = "Max: " + Math.round(data[3]) + "&#176;F";
+        minTemp.innerHTML = "Min: " + Math.round(data[4]) + "&#176;F";
+        return false;
+    }
 
     city.innerHTML = data[0];
     temp.innerHTML = Math.round(data[1]) + "&#176;";
     desc.innerHTML = data[2];
     maxTemp.innerHTML = "Max: " + Math.round(data[3]) + "&#176;";
     minTemp.innerHTML = "Min: " + Math.round(data[4]) + "&#176;";
+}
+
+function outputAside(data, error = false) {
+    const pressure = document.querySelector("#hero-pressure");
+    const humidity = document.querySelector("#hero-humidity");
+
+    if (error != false) {
+        humidity.innerHTML = "";
+        pressure.innerHTML = "";
+        return false;
+    }
+
+    humidity.innerHTML = "Humidity(влажность): " + data[0] + "%";
+    pressure.innerHTML = "Pressure(давление): " + data[1] / 1000 + " hPa(гПа)";
 }
 
 function selectCityFromList(event) {
